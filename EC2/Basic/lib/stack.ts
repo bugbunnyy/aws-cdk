@@ -21,6 +21,12 @@ export class Ec2DefaultVpcStack extends cdk.Stack {
       },
     )
 
+    instanceSecurityGroup.addIngressRule(
+      ec2.Peer.anyIpv4(),
+      ec2.Port.tcp(22),
+      'Allows SSH access from Internet'
+    )
+    
     const instance = new ec2.Instance(this, 'EC2DefaultVPC', {
       vpc: defaultVpc,
       instanceType: ec2.InstanceType.of(
